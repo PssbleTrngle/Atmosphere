@@ -38,6 +38,7 @@ public class DataEntrypoint {
         ));
 
         generator.addProvider(true, new LangGen(output));
+        generator.addProvider(true, new DimensionTagGen(output, registries));
     }
 
 }

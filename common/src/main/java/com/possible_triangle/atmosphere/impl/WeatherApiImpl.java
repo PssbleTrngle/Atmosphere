@@ -27,8 +27,7 @@ public class WeatherApiImpl implements WeatherAPI {
     }
 
     private boolean isSupported(Level level) {
-        // TODO tag
-        return level.dimension() == Level.OVERWORLD;
+        return level.dimensionTypeRegistration().is(AtmosphereTags.HAS_WEATHER);
     }
 
     @Override
