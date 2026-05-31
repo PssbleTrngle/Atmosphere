@@ -25,6 +25,7 @@ public class ForgeEntrypoint {
         var apiImpl = (WeatherApiImpl) WeatherAPI.INSTANCE;
 
         NeoForge.EVENT_BUS.addListener((LevelTickEvent.Post event) -> {
+            if (event.getLevel().isClientSide()) return;
             if (apiImpl.getWeather(event.getLevel()) instanceof ServerLevelWeather weather) {
                 weather.serverTick();
             }

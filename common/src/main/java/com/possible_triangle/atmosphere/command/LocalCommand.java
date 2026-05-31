@@ -27,7 +27,7 @@ public class LocalCommand {
 
         source.sendSuccess(() -> Component.translatable(LIST_HEADER, entries.size()), true);
         entries.forEach(it -> {
-            source.sendSuccess(() -> Component.translatable(LIST_ENTRY, it.id()), false);
+            source.sendSuccess(() -> Component.translatable(LIST_ENTRY, it.id().toString()), false);
         });
 
         return entries.size();
