@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "com.possible_triangle.atmosphere.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "mixins": [
+    "LevelMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
