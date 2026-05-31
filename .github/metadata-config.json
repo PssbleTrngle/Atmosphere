@@ -1,0 +1,12 @@
+{
+  "$version": "1.0",
+  "$schema": "https://workflows.somethingcatchy.net/schema/config.json",
+  "assignee": "@owner",
+  "type": "minecraft",
+  "loaders": [
+    "neoforge"
+  ],
+  "upload": {
+    "nexus": true
+  }
+}
