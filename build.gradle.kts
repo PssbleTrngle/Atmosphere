@@ -1,5 +1,7 @@
 plugins {
-    id("com.possible-triangle.neoforge")
+    id("com.possible-triangle.core")
+    id("com.possible-triangle.common") apply false
+    id("com.possible-triangle.neoforge") apply false
 }
 
 // TODO move to GradleHelper
@@ -9,15 +11,12 @@ mod.version =
         .gradleProperty("mod_version")
         .map { it.replace("<patch>", patch) }
 
-neoforge {
-    dataGen {
-        splitSourceSet()
-    }
-}
+subprojects {
+    apply(plugin = "com.possible-triangle.core")
 
-upload {
-    maven.nexus()
-    modrinth.syncBodyFromReadme()
+    upload {
+        maven.nexus()
+    }
 }
 
 enableSpotless()

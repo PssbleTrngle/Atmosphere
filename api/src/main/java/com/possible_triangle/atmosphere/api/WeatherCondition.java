@@ -2,7 +2,6 @@ package com.possible_triangle.atmosphere.api;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.possible_triangle.atmosphere.Constants;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -41,7 +40,7 @@ public record WeatherCondition(boolean precipitation) {
     }
 
     private static ResourceKey<WeatherCondition> builtin(String name) {
-        var registry = ResourceKey.<WeatherCondition>createRegistryKey(Constants.createId("weather_condition"));
+        var registry = ResourceKey.<WeatherCondition>createRegistryKey(AtmosphereConstants.createId("weather_condition"));
         return ResourceKey.create(registry, ResourceLocation.withDefaultNamespace(name));
     }
 

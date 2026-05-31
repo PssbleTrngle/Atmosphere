@@ -1,10 +1,10 @@
-package com.possible_triangle.atmosphere;
+package com.possible_triangle.atmosphere.api;
 
 import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Constants {
+public class AtmosphereConstants {
 
     public static final String MOD_ID = "atmosphere";
     public static final String MOD_NAME = "Atmosphere";

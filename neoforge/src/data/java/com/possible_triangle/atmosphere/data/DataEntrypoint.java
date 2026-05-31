@@ -1,6 +1,6 @@
 package com.possible_triangle.atmosphere.data;
 
-import com.possible_triangle.atmosphere.Constants;
+import com.possible_triangle.atmosphere.api.AtmosphereConstants;
 import com.possible_triangle.atmosphere.api.AtmosphereRegistries;
 import java.util.Optional;
 import java.util.Set;
@@ -25,7 +25,7 @@ public class DataEntrypoint {
         var registries = event.getLookupProvider();
 
         generator.addProvider(true, new PackMetadataGenerator(output).add(PackMetadataSection.TYPE, new PackMetadataSection(
-            Component.literal(Constants.MOD_NAME),
+            Component.literal(AtmosphereConstants.MOD_NAME),
             DetectedVersion.BUILT_IN.getPackVersion(PackType.CLIENT_RESOURCES),
             Optional.empty()
         )));
@@ -34,7 +34,7 @@ public class DataEntrypoint {
             .add(AtmosphereRegistries.WEATHER_CONDITION, WeatherConditionGen::bootstrap);
 
         generator.addProvider(true, new DatapackBuiltinEntriesProvider(
-           output, registries, registriesBuilder, Set.of("minecraft", Constants.MOD_ID)
+           output, registries, registriesBuilder, Set.of("minecraft", AtmosphereConstants.MOD_ID)
         ));
     }
 

@@ -13,18 +13,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
 public class WeatherApiImpl implements WeatherAPI {
 
     private static WeatherProvider GLOBAL = new VanillaWeatherProvider();
     private static final HashMap<ResourceLocation, LocalWeatherProvider> LOCAL = new HashMap<>();
 
-    public void register() {
-        NeoForge.EVENT_BUS.addListener((LevelTickEvent.Post event) -> {
-            validate(event.getLevel());
-        });
+    public void onTick(Level level) {
+        validate(level);
     }
 
     private void validate(Level level) {
