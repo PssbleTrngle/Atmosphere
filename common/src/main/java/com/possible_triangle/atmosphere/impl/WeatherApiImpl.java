@@ -3,61 +3,37 @@ package com.possible_triangle.atmosphere.impl;
 import com.possible_triangle.atmosphere.api.v1.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Stream;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 
 public class WeatherApiImpl implements WeatherAPI {
 
-    private static WeatherProvider GLOBAL = new VanillaWeatherProvider();
-    private static final HashMap<ResourceLocation, LocalWeatherProvider> LOCAL = new HashMap<>();
+    // TODO move to persisted data?
+    private final Map<ResourceKey<Level>, LevelWeather> perLevel = new HashMap<>();
 
-    public void serverTick(ServerLevel level) {
-        validate(level);
+    public void load(Level level) {
+        if (!isSupported(level)) return;
+
+        if (level instanceof ServerLevel serverLevel) {
+            perLevel.put(level.dimension(), new ServerLevelWeather(serverLevel));
+        }
+
+        // TODO network sync & co
     }
 
-    private void validate(ServerLevel level) {
-        var invalid = LOCAL.entrySet().stream()
-            .filter(it ->
-                !it.getValue().heartbeat()
-                    .map(heartbeat -> heartbeat.validate(level))
-                    .orElse(false)
-            )
-            .map(Map.Entry::getKey)
-            .toList();
-
-        invalid.forEach(LOCAL::remove);
+    public void unload(Level level) {
+        perLevel.remove(level.dimension());
     }
 
-    @Override
-    public Holder<WeatherCondition> atPosition(Level level, BlockPos pos) {
-        return LOCAL.values().stream()
-            .filter(it -> it.area().contains(Vec3.atCenterOf(pos)))
-            .findFirst()
-            .map(LocalWeatherProvider::provider)
-            .orElse(GLOBAL)
-            .atPosition(level, pos);
+    private boolean isSupported(Level level) {
+        // TODO tag
+        return level.dimension() == Level.OVERWORLD;
     }
 
     @Override
-    public void registerGlobal(WeatherProvider provider) {
-        GLOBAL = provider;
-    }
-
-    @Override
-    public void addLocal(ResourceLocation id, WeatherProvider provider, AABB area, ProviderHeartbeat heartbeat) {
-        LOCAL.putIfAbsent(id, new LocalWeatherProvider(id, provider, area, Optional.of(heartbeat)));
-    }
-
-    @Override
-    public Stream<LocalWeatherProvider> listLocal() {
-        return LOCAL.values().stream();
+    public LevelWeather getWeather(Level level) {
+        return perLevel.getOrDefault(level.dimension(), VanillaLevelWeather.INSTANCE);
     }
 
 }

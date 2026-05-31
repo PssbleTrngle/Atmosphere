@@ -22,7 +22,8 @@ public class LocalCommand {
 
     private static int list(CommandContext<CommandSourceStack> context) {
         var source = context.getSource();
-        var entries = WeatherAPI.INSTANCE.listLocal().toList();
+        var weather = WeatherAPI.INSTANCE.getWeather(source.getLevel());
+        var entries = weather.listLocal().toList();
 
         source.sendSuccess(() -> Component.translatable(LIST_HEADER, entries.size()), true);
         entries.forEach(it -> {

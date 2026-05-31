@@ -15,7 +15,8 @@ public abstract class LevelMixin {
     public void isRainingAt(BlockPos pos, CallbackInfoReturnable<Boolean> callback) {
         var self = (Level) (Object) this;
 
-        var condition = WeatherAPI.INSTANCE.atPosition(self, pos);
+        var weather = WeatherAPI.INSTANCE.getWeather(self);
+        var condition = weather.atPosition(self, pos);
         callback.setReturnValue(condition.value().precipitation());
     }
 

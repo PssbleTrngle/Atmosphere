@@ -5,13 +5,16 @@ import com.possible_triangle.atmosphere.api.v1.AtmosphereRegistries;
 import com.possible_triangle.atmosphere.api.v1.WeatherAPI;
 import com.possible_triangle.atmosphere.api.v1.WeatherCondition;
 import com.possible_triangle.atmosphere.command.AtmosphereCommand;
+import com.possible_triangle.atmosphere.impl.ServerLevelWeather;
 import com.possible_triangle.atmosphere.impl.WeatherApiImpl;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 
@@ -21,9 +24,25 @@ public class ForgeEntrypoint {
 
     public ForgeEntrypoint() {
         var apiImpl = (WeatherApiImpl) WeatherAPI.INSTANCE;
+
         NeoForge.EVENT_BUS.addListener((LevelTickEvent.Post event) -> {
             if (event.getLevel() instanceof ServerLevel level) {
-                apiImpl.serverTick(level);
+                if (apiImpl.getWeather(level) instanceof ServerLevelWeather weather) {
+                    weather.serverTick();
+                }
+            }
+        });
+
+        NeoForge.EVENT_BUS.addListener((LevelEvent.Load event) -> {
+            // check what I actually need here, maybe LevelAccessor is enough
+            if (event.getLevel() instanceof Level level) {
+                apiImpl.load(level);
+            }
+        });
+
+        NeoForge.EVENT_BUS.addListener((LevelEvent.Load event) -> {
+            if (event.getLevel() instanceof Level level) {
+                apiImpl.unload(level);
             }
         });
     }
