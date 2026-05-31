@@ -57,8 +57,15 @@ public class ServerLevelWeather implements LevelWeather {
     }
 
     @Override
-    public void addLocal(ResourceLocation id, WeatherProvider provider, AABB area, ProviderHeartbeat heartbeat) {
-        LOCAL.putIfAbsent(id, new LocalWeatherProvider(id, provider, area, Optional.of(heartbeat)));
+    public boolean addLocal(ResourceLocation id, WeatherProvider provider, AABB area, ProviderHeartbeat heartbeat) {
+        var previous = LOCAL.putIfAbsent(id, new LocalWeatherProvider(id, provider, area, Optional.of(heartbeat)));
+        return previous == null;
+    }
+
+    @Override
+    public boolean removeLocal(ResourceLocation id) {
+        var removed = LOCAL.remove(id);
+        return removed != null;
     }
 
     @Override

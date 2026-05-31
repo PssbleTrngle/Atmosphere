@@ -8,7 +8,9 @@ public interface LevelWeather extends WeatherProvider {
 
     void registerGlobal(WeatherProvider provider);
 
-    void addLocal(ResourceLocation id, WeatherProvider provider, AABB area, ProviderHeartbeat heartbeat);
+    boolean addLocal(ResourceLocation id, WeatherProvider provider, AABB area, ProviderHeartbeat heartbeat);
+
+    boolean removeLocal(ResourceLocation id);
 
     Stream<LocalWeatherProvider> listLocal();
 

@@ -17,7 +17,13 @@ public class VanillaLevelWeather extends VanillaWeatherProvider implements Level
     }
 
     @Override
-    public void addLocal(ResourceLocation id, WeatherProvider provider, AABB area, ProviderHeartbeat heartbeat) {
+    public boolean addLocal(ResourceLocation id, WeatherProvider provider, AABB area, ProviderHeartbeat heartbeat) {
+        return false;
+    }
+
+    @Override
+    public boolean removeLocal(ResourceLocation id) {
+        return false;
     }
 
     @Override
