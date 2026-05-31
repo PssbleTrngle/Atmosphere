@@ -1,4 +1,4 @@
-package com.possible_triangle.atmosphere.api;
+package com.possible_triangle.atmosphere.api.v1;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

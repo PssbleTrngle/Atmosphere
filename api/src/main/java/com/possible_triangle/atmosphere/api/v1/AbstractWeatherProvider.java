@@ -1,4 +1,4 @@
-package com.possible_triangle.atmosphere.api;
+package com.possible_triangle.atmosphere.api.v1;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;

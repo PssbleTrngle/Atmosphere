@@ -1,7 +1,7 @@
 package com.possible_triangle.atmosphere.impl;
 
-import com.possible_triangle.atmosphere.api.AbstractWeatherProvider;
-import com.possible_triangle.atmosphere.api.WeatherCondition;
+import com.possible_triangle.atmosphere.api.v1.AbstractWeatherProvider;
+import com.possible_triangle.atmosphere.api.v1.WeatherCondition;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;

@@ -1,7 +1,7 @@
 package com.possible_triangle.atmosphere.data;
 
-import com.possible_triangle.atmosphere.api.AtmosphereConstants;
-import com.possible_triangle.atmosphere.api.AtmosphereRegistries;
+import com.possible_triangle.atmosphere.api.v1.AtmosphereConstants;
+import com.possible_triangle.atmosphere.api.v1.AtmosphereRegistries;
 import java.util.Optional;
 import java.util.Set;
 import net.minecraft.DetectedVersion;
@@ -34,8 +34,10 @@ public class DataEntrypoint {
             .add(AtmosphereRegistries.WEATHER_CONDITION, WeatherConditionGen::bootstrap);
 
         generator.addProvider(true, new DatapackBuiltinEntriesProvider(
-           output, registries, registriesBuilder, Set.of("minecraft", AtmosphereConstants.MOD_ID)
+            output, registries, registriesBuilder, Set.of("minecraft", AtmosphereConstants.MOD_ID)
         ));
+
+        generator.addProvider(true, new LangGen(output));
     }
 
 }

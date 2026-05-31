@@ -1,0 +1,4 @@
+{
+  "atmosphere.command.local_providers.list.entry": "%s",
+  "atmosphere.command.local_providers.list.header": "there are %s local weather providers"
+}

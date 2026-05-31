@@ -1,6 +1,6 @@
 package com.possible_triangle.atmosphere.mixins;
 
-import com.possible_triangle.atmosphere.api.WeatherAPI;
+import com.possible_triangle.atmosphere.api.v1.WeatherAPI;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
