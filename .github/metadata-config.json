@@ -3,11 +3,6 @@
   "$schema": "https://workflows.somethingcatchy.net/schema/config.json",
   "assignee": "@owner",
   "type": "minecraft",
-  "loaders": [
-    "neoforge"
-  ],
-  "upload": {
-    "strategy": "push",
-    "nexus": true
-  }
+  "loaders": ["neoforge"],
+  "upload": { "strategy": "push", "nexus": true }
 }
