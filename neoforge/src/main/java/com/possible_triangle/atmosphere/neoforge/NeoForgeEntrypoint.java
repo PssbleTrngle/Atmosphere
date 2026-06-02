@@ -1,4 +1,4 @@
-package com.possible_triangle.atmosphere;
+package com.possible_triangle.atmosphere.neoforge;
 
 import com.possible_triangle.atmosphere.api.v1.AtmosphereConstants;
 import com.possible_triangle.atmosphere.api.v1.AtmosphereRegistries;
@@ -7,7 +7,9 @@ import com.possible_triangle.atmosphere.api.v1.WeatherCondition;
 import com.possible_triangle.atmosphere.command.AtmosphereCommand;
 import com.possible_triangle.atmosphere.impl.ServerLevelWeather;
 import com.possible_triangle.atmosphere.impl.WeatherApiImpl;
+import com.possible_triangle.atmosphere.network.AtmosphereNetwork;
 import net.minecraft.world.level.Level;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
@@ -19,10 +21,14 @@ import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 
 @Mod(AtmosphereConstants.MOD_ID)
 @EventBusSubscriber
-public class ForgeEntrypoint {
+public class NeoForgeEntrypoint {
 
-    public ForgeEntrypoint() {
+    public NeoForgeEntrypoint(IEventBus modBus) {
         var apiImpl = (WeatherApiImpl) WeatherAPI.INSTANCE;
+
+        if (AtmosphereNetwork.INSTANCE instanceof NeoForgeNetwork network) {
+            network.register(modBus);
+        }
 
         NeoForge.EVENT_BUS.addListener((LevelTickEvent.Post event) -> {
             if (event.getLevel().isClientSide()) return;

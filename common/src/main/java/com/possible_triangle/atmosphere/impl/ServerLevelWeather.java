@@ -1,6 +1,7 @@
 package com.possible_triangle.atmosphere.impl;
 
 import com.possible_triangle.atmosphere.api.v1.*;
+import com.possible_triangle.atmosphere.api.v1.area.Area;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -10,7 +11,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class ServerLevelWeather implements LevelWeather {
@@ -57,8 +57,8 @@ public class ServerLevelWeather implements LevelWeather {
     }
 
     @Override
-    public boolean addLocal(ResourceLocation id, WeatherProvider provider, AABB area, ProviderHeartbeat heartbeat) {
-        var previous = LOCAL.putIfAbsent(id, new LocalWeatherProvider(id, provider, area, Optional.of(heartbeat)));
+    public boolean addLocal(ResourceLocation id, WeatherProvider provider, Area area, ProviderHeartbeat heartbeat) {
+        var previous = LOCAL.putIfAbsent(id, new LocalWeatherProvider(id, provider, area, Optional.ofNullable(heartbeat)));
         return previous == null;
     }
 

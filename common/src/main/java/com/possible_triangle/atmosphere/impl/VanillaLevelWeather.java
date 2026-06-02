@@ -4,9 +4,9 @@ import com.possible_triangle.atmosphere.api.v1.LevelWeather;
 import com.possible_triangle.atmosphere.api.v1.LocalWeatherProvider;
 import com.possible_triangle.atmosphere.api.v1.ProviderHeartbeat;
 import com.possible_triangle.atmosphere.api.v1.WeatherProvider;
+import com.possible_triangle.atmosphere.api.v1.area.Area;
 import java.util.stream.Stream;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.phys.AABB;
 
 public class VanillaLevelWeather extends VanillaWeatherProvider implements LevelWeather {
 
@@ -17,7 +17,7 @@ public class VanillaLevelWeather extends VanillaWeatherProvider implements Level
     }
 
     @Override
-    public boolean addLocal(ResourceLocation id, WeatherProvider provider, AABB area, ProviderHeartbeat heartbeat) {
+    public boolean addLocal(ResourceLocation id, WeatherProvider provider, Area area, ProviderHeartbeat heartbeat) {
         return false;
     }
 
