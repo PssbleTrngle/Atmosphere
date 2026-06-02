@@ -36,7 +36,7 @@ public class ServerLevelWeather implements LevelWeather {
             .filter(it ->
                 !it.getValue().heartbeat()
                     .map(heartbeat -> heartbeat.validate(level))
-                    .orElse(false)
+                    .orElse(true)
             )
             .map(Map.Entry::getKey)
             .toList();

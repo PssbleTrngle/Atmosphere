@@ -5,6 +5,7 @@ import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
 
 import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.possible_triangle.atmosphere.api.v1.ConstantWeatherProvider;
@@ -17,6 +18,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.AABB;
 
 public class LocalCommand {
@@ -32,19 +34,23 @@ public class LocalCommand {
         return literal("local").then(
             literal("list").executes(LocalCommand::list)
         ).then(
-            literal("add").then(
-                argument("id", ResourceLocationArgument.id()).then(
-                    literal("box").then(argument("from", Vec3Argument.vec3()).then(argument("to", Vec3Argument.vec3()).then(
-                        argument("weather", WeatherConditionArgument.create()).executes(
-                            context -> add(context, getBox(context))
-                        )
-                    )))
-                )
-            )
+            literal("add").then(providerBuilderNode(LocalCommand::add))
         ).then(
-            literal("remove").then(argument("id", ResourceLocationArgument.id()).executes(LocalCommand::remove))
+            literal("replace").then(providerBuilderNode(LocalCommand::replace))
+        ).then(
+            literal("remove").then(LocalProviderArgument.existing("id").executes(LocalCommand::remove))
         ).then(
             literal("render").executes(LocalCommand::toggleRendering)
+        );
+    }
+
+    private static RequiredArgumentBuilder<CommandSourceStack, ResourceLocation> providerBuilderNode(ProviderBuilderCommand command) {
+        return argument("id", ResourceLocationArgument.id()).then(
+            literal("box").then(argument("from", Vec3Argument.vec3()).then(argument("to", Vec3Argument.vec3()).then(
+                argument("weather", WeatherConditionArgument.create()).executes(
+                    context -> command.run(context, getBox(context))
+                )
+            )))
         );
     }
 
@@ -63,9 +69,13 @@ public class LocalCommand {
 
     private static Area getBox(CommandContext<CommandSourceStack> context) {
         var from = Vec3Argument.getVec3(context, "from");
-        var to = Vec3Argument.getVec3(context, "from");
+        var to = Vec3Argument.getVec3(context, "to");
         var aabb = new AABB(from, to);
         return Box.from(aabb);
+    }
+
+    private static int replace(CommandContext<CommandSourceStack> context, Area area) throws CommandSyntaxException {
+        return remove(context) + add(context, area);
     }
 
     private static int add(CommandContext<CommandSourceStack> context, Area area) throws CommandSyntaxException {
@@ -78,10 +88,10 @@ public class LocalCommand {
         var success = weather.addLocal(id, new ConstantWeatherProvider(weatherCondition), area, null);
 
         if (success) {
-            source.sendSuccess(() -> Component.translatable(CREATED, id), true);
+            source.sendSuccess(() -> Component.translatable(CREATED, id.toString()), true);
             return 1;
         } else {
-            source.sendFailure(Component.translatable(DUPLICATE, id));
+            source.sendFailure(Component.translatable(DUPLICATE, id.toString()));
             return 0;
         }
     }
@@ -95,11 +105,11 @@ public class LocalCommand {
         var success = weather.removeLocal(id);
 
         if (success) {
-            source.sendSuccess(() -> Component.translatable(REMOVED, id), true);
+            source.sendSuccess(() -> Component.translatable(REMOVED, id.toString()), true);
             return 1;
         } else {
             // TODO exception instead
-            source.sendFailure(Component.translatable(UNKNOWN, id));
+            source.sendFailure(Component.translatable(UNKNOWN, id.toString()));
             return 0;
         }
     }
@@ -110,6 +120,11 @@ public class LocalCommand {
         AtmosphereNetwork.RENDER_LOCAL_WEATHER.sendTo(player, message);
 
         return 1;
+    }
+
+    @FunctionalInterface
+    private interface ProviderBuilderCommand {
+        int run(CommandContext<CommandSourceStack> context, Area area) throws CommandSyntaxException;
     }
 
 }

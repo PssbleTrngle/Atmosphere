@@ -5,5 +5,7 @@
   "atmosphere.command.local_providers.list.header": "there are %s local weather providers",
   "atmosphere.command.local_providers.removed": "removed local weather provider with ID %s",
   "atmosphere.command.local_providers.unknown": "there is no local weather provider with ID %s",
-  "atmosphere.command.weather_condition.unknown": "unknown weather condition '%s'"
+  "atmosphere.command.weather_condition.unknown": "unknown weather condition '%s'",
+  "atmosphere.debug.render.disabled": "atmosphere debug rendering disabled",
+  "atmosphere.debug.render.enabled": "atmosphere debug rendering enabled"
 }

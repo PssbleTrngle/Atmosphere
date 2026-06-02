@@ -30,7 +30,6 @@ public class NeoForgeNetwork implements AtmosphereNetwork {
         CONSUMERS.add(registrar -> {
             registrar.playToClient(type.type(), type.codec(), (message, context) -> {
                 context.enqueueWork(() -> receiver.receive(message, context.player()));
-                context.handle(message);
             });
         });
 

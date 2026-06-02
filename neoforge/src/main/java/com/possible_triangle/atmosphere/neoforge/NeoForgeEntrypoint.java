@@ -3,9 +3,11 @@ package com.possible_triangle.atmosphere.neoforge;
 import com.possible_triangle.atmosphere.api.v1.AtmosphereConstants;
 import com.possible_triangle.atmosphere.api.v1.AtmosphereRegistries;
 import com.possible_triangle.atmosphere.api.v1.WeatherCondition;
+import com.possible_triangle.atmosphere.client.DebugRendering;
 import com.possible_triangle.atmosphere.command.AtmosphereCommand;
 import com.possible_triangle.atmosphere.impl.ServerLevelWeather;
 import com.possible_triangle.atmosphere.impl.WeatherApiImpl;
+import com.possible_triangle.atmosphere.neoforge.client.NeoForgeDebugRendering;
 import com.possible_triangle.atmosphere.network.AtmosphereNetwork;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.IEventBus;
@@ -48,6 +50,13 @@ public class NeoForgeEntrypoint {
             });
         } else {
             AtmosphereConstants.LOGGER.warn("WeatherAPI was overridden by another mod");
+        }
+
+        if (DebugRendering.INSTANCE instanceof NeoForgeDebugRendering rendering) {
+            NeoForge.EVENT_BUS.addListener((LevelTickEvent.Pre event) -> {
+                var level = event.getLevel();
+                if (level.isClientSide()) rendering.tick(level);
+            });
         }
     }
 

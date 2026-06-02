@@ -2,6 +2,7 @@ package com.possible_triangle.atmosphere.command;
 
 import static com.possible_triangle.atmosphere.command.AtmosphereCommand.translationKey;
 
+import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
@@ -19,7 +20,7 @@ public class WeatherConditionArgument {
     private static final DynamicCommandExceptionType ERROR_INVALID_WEATHER_CONDITION =
         new DynamicCommandExceptionType((key) -> Component.translatableEscape(INVALID_WEATHER_CONDITION, key));
 
-    public static ResourceKeyArgument<WeatherCondition> create() {
+    public static ArgumentType<ResourceKey<WeatherCondition>> create() {
         return ResourceKeyArgument.key(AtmosphereRegistries.WEATHER_CONDITION);
     }
 

@@ -3,6 +3,7 @@ package com.possible_triangle.atmosphere.data;
 import com.possible_triangle.atmosphere.api.v1.AtmosphereConstants;
 import com.possible_triangle.atmosphere.command.LocalCommand;
 import com.possible_triangle.atmosphere.command.WeatherConditionArgument;
+import com.possible_triangle.atmosphere.neoforge.client.NeoForgeDebugRendering;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
@@ -21,6 +22,9 @@ public class LangGen extends LanguageProvider {
         add(LocalCommand.DUPLICATE, "unable to create local weather provider, ID %s is already present");
         add(LocalCommand.REMOVED, "removed local weather provider with ID %s");
         add(LocalCommand.UNKNOWN, "there is no local weather provider with ID %s");
+
+        add(NeoForgeDebugRendering.MESSAGE_ENABLED, "atmosphere debug rendering enabled");
+        add(NeoForgeDebugRendering.MESSAGE_DISABLED, "atmosphere debug rendering disabled");
     }
 
 }
