@@ -8,6 +8,4 @@ public interface EventBus<T> {
 
     Runnable subscribe(Consumer<T> listener);
 
-    void unsubscribe(Consumer<T> listener);
-
 }

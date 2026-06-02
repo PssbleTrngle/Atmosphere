@@ -4,11 +4,8 @@ import com.possible_triangle.atmosphere.api.v1.LocalWeatherProvider;
 import com.possible_triangle.atmosphere.api.v1.WeatherAPI;
 import com.possible_triangle.atmosphere.api.v1.area.Box;
 import com.possible_triangle.atmosphere.api.v1.events.AtmosphereEvents;
-import com.possible_triangle.atmosphere.api.v1.events.LocalProviderAdded;
-import com.possible_triangle.atmosphere.api.v1.events.LocalProviderRemoved;
 import com.possible_triangle.atmosphere.client.DebugRendering;
 import com.possible_triangle.atmosphere.network.message.RenderLocalWeatherProviders;
-import java.util.function.Consumer;
 import net.createmod.catnip.outliner.Outliner;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -19,13 +16,7 @@ public class NeoForgeDebugRendering implements DebugRendering {
 
     private static boolean renderLocalWeatherProviders = false;
 
-    private final Consumer<LocalProviderAdded> onLocalProviderAdded = event -> {
-        addOutline(event.provider());
-    };
-
-    private final Consumer<LocalProviderRemoved> onLocalProviderRemoved = event -> {
-        removeOutline(event.provider());
-    };
+    private Runnable unregisterCallback = null;
 
     private void addOutline(LocalWeatherProvider provider) {
         if (provider.area() instanceof Box box) {
@@ -46,16 +37,17 @@ public class NeoForgeDebugRendering implements DebugRendering {
     }
 
     public void enable(Level level) {
-        AtmosphereEvents.LOCAL_PROVIDER_ADDED.subscribe(onLocalProviderAdded);
-        AtmosphereEvents.LOCAL_PROVIDER_REMOVED.subscribe(onLocalProviderRemoved);
+        unregisterCallback = AtmosphereEvents.combine(
+            AtmosphereEvents.LOCAL_PROVIDER_ADDED.subscribe(event -> addOutline(event.provider())),
+            AtmosphereEvents.LOCAL_PROVIDER_REMOVED.subscribe(event -> removeOutline(event.provider()))
+        );
 
         var weather = WeatherAPI.INSTANCE.getWeather(level);
         weather.listLocal().forEach(this::addOutline);
     }
 
     public void disable(Level level) {
-        AtmosphereEvents.LOCAL_PROVIDER_ADDED.unsubscribe(onLocalProviderAdded);
-        AtmosphereEvents.LOCAL_PROVIDER_REMOVED.unsubscribe(onLocalProviderRemoved);
+        if (unregisterCallback != null) unregisterCallback.run();
 
         var weather = WeatherAPI.INSTANCE.getWeather(level);
         weather.listLocal().forEach(this::removeOutline);

@@ -16,4 +16,10 @@ public interface AtmosphereEvents {
 
     <T> EventBus<T> create(ResourceLocation id);
 
+    static Runnable combine(Runnable... runnables) {
+        return () -> {
+            for (var it : runnables) it.run();
+        };
+    }
+
 }
