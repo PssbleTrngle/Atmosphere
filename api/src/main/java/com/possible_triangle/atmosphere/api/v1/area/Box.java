@@ -19,4 +19,9 @@ public class Box implements Area {
     public boolean contains(Vec3 pos) {
         return aabb.contains(pos);
     }
+
+    public AABB aabb() {
+        return this.aabb;
+    }
+
 }

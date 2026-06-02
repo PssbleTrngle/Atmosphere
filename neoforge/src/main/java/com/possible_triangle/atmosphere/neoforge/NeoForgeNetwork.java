@@ -25,12 +25,11 @@ public class NeoForgeNetwork implements AtmosphereNetwork {
     @Override
     public <T extends CustomPacketPayload> ServerToClient<T> serverToClient(
         CustomPacketPayload.TypeAndCodec<FriendlyByteBuf, T> type,
-        Consumer<T> receiver
+        ClientHandler<T> receiver
     ) {
         CONSUMERS.add(registrar -> {
             registrar.playToClient(type.type(), type.codec(), (message, context) -> {
-                ;
-                context.enqueueWork(() -> receiver.accept(message));
+                context.enqueueWork(() -> receiver.receive(message, context.player()));
                 context.handle(message);
             });
         });

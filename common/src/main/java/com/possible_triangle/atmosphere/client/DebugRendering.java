@@ -1,13 +1,13 @@
 package com.possible_triangle.atmosphere.client;
 
 import com.possible_triangle.atmosphere.network.message.RenderLocalWeatherProviders;
+import com.possible_triangle.atmosphere.platform.Services;
+import net.minecraft.world.entity.player.Player;
 
-public class DebugRendering {
+public interface DebugRendering {
 
-    private static boolean renderLocalWeatherProviders = false;
+    DebugRendering INSTANCE = Services.load(DebugRendering.class);
 
-    public static void receive(RenderLocalWeatherProviders message) {
-        renderLocalWeatherProviders = message.action().resolve(renderLocalWeatherProviders);
-    }
+    void receive(RenderLocalWeatherProviders message, Player player);
 
 }

@@ -7,6 +7,26 @@ plugins {
 subprojects {
     apply(plugin = "com.possible-triangle.core")
 
+    repositories {
+        maven {
+            url = uri("https://maven.createmod.net")
+            content {
+                includeGroup("com.simibubi.create")
+                includeGroup("net.createmod.ponder")
+                includeGroup("dev.engine-room.flywheel")
+            }
+        }
+
+        maven {
+            url = uri("https://maven.ryanhcode.dev/releases")
+            content {
+                includeGroupAndSubgroups("dev.eriksonn")
+                includeGroupAndSubgroups("dev.ryanhcode")
+                includeGroupAndSubgroups("dev.simulated_team")
+            }
+        }
+    }
+
     upload {
         maven.nexus()
     }

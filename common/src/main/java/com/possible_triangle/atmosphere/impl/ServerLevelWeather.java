@@ -2,6 +2,9 @@ package com.possible_triangle.atmosphere.impl;
 
 import com.possible_triangle.atmosphere.api.v1.*;
 import com.possible_triangle.atmosphere.api.v1.area.Area;
+import com.possible_triangle.atmosphere.api.v1.events.AtmosphereEvents;
+import com.possible_triangle.atmosphere.api.v1.events.LocalProviderAdded;
+import com.possible_triangle.atmosphere.api.v1.events.LocalProviderRemoved;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -58,14 +61,24 @@ public class ServerLevelWeather implements LevelWeather {
 
     @Override
     public boolean addLocal(ResourceLocation id, WeatherProvider provider, Area area, ProviderHeartbeat heartbeat) {
-        var previous = LOCAL.putIfAbsent(id, new LocalWeatherProvider(id, provider, area, Optional.ofNullable(heartbeat)));
-        return previous == null;
+        var added = new LocalWeatherProvider(id, provider, area, Optional.ofNullable(heartbeat));
+        var previous = LOCAL.putIfAbsent(id, added);
+        if (previous == null) {
+            AtmosphereEvents.LOCAL_PROVIDER_ADDED.dispatch(new LocalProviderAdded(level, added));
+            return true;
+        }
+
+        return false;
     }
 
     @Override
     public boolean removeLocal(ResourceLocation id) {
         var removed = LOCAL.remove(id);
-        return removed != null;
+        if (removed != null) {
+            AtmosphereEvents.LOCAL_PROVIDER_REMOVED.dispatch(new LocalProviderRemoved(level, removed));
+            return true;
+        }
+        return false;
     }
 
     @Override

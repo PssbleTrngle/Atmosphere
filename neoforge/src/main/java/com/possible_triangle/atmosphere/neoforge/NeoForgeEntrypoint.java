@@ -2,7 +2,6 @@ package com.possible_triangle.atmosphere.neoforge;
 
 import com.possible_triangle.atmosphere.api.v1.AtmosphereConstants;
 import com.possible_triangle.atmosphere.api.v1.AtmosphereRegistries;
-import com.possible_triangle.atmosphere.api.v1.WeatherAPI;
 import com.possible_triangle.atmosphere.api.v1.WeatherCondition;
 import com.possible_triangle.atmosphere.command.AtmosphereCommand;
 import com.possible_triangle.atmosphere.impl.ServerLevelWeather;
@@ -24,30 +23,32 @@ import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 public class NeoForgeEntrypoint {
 
     public NeoForgeEntrypoint(IEventBus modBus) {
-        var apiImpl = (WeatherApiImpl) WeatherAPI.INSTANCE;
-
         if (AtmosphereNetwork.INSTANCE instanceof NeoForgeNetwork network) {
             network.register(modBus);
         }
 
-        NeoForge.EVENT_BUS.addListener((LevelTickEvent.Post event) -> {
-            if (event.getLevel().isClientSide()) return;
-            if (apiImpl.getWeather(event.getLevel()) instanceof ServerLevelWeather weather) {
-                weather.serverTick();
-            }
-        });
+        if (WeatherApiImpl.INSTANCE instanceof WeatherApiImpl apiImpl) {
+            NeoForge.EVENT_BUS.addListener((LevelTickEvent.Post event) -> {
+                if (event.getLevel().isClientSide()) return;
+                if (apiImpl.getWeather(event.getLevel()) instanceof ServerLevelWeather weather) {
+                    weather.serverTick();
+                }
+            });
 
-        NeoForge.EVENT_BUS.addListener((LevelEvent.Load event) -> {
-            if (event.getLevel() instanceof Level level) {
-                apiImpl.load(level);
-            }
-        });
+            NeoForge.EVENT_BUS.addListener((LevelEvent.Load event) -> {
+                if (event.getLevel() instanceof Level level) {
+                    apiImpl.load(level);
+                }
+            });
 
-        NeoForge.EVENT_BUS.addListener((LevelEvent.Unload event) -> {
-            if (event.getLevel() instanceof Level level) {
-                apiImpl.unload(level);
-            }
-        });
+            NeoForge.EVENT_BUS.addListener((LevelEvent.Unload event) -> {
+                if (event.getLevel() instanceof Level level) {
+                    apiImpl.unload(level);
+                }
+            });
+        } else {
+            AtmosphereConstants.LOGGER.warn("WeatherAPI was overridden by another mod");
+        }
     }
 
     @SubscribeEvent

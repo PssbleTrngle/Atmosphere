@@ -12,3 +12,7 @@ neoforge {
         splitSourceSet()
     }
 }
+
+dependencies {
+    modInclude(libs.ponder)
+}

@@ -3,10 +3,10 @@ package com.possible_triangle.atmosphere.network;
 import com.possible_triangle.atmosphere.client.DebugRendering;
 import com.possible_triangle.atmosphere.network.message.RenderLocalWeatherProviders;
 import com.possible_triangle.atmosphere.platform.Services;
-import java.util.function.Consumer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 
 public interface AtmosphereNetwork {
 
@@ -16,17 +16,22 @@ public interface AtmosphereNetwork {
 
     ServerToClient<RenderLocalWeatherProviders> RENDER_LOCAL_WEATHER = INSTANCE.serverToClient(
         RenderLocalWeatherProviders.TYPE,
-        DebugRendering::receive
+        DebugRendering.INSTANCE::receive
     );
 
     <T extends CustomPacketPayload> ServerToClient<T> serverToClient(
         CustomPacketPayload.TypeAndCodec<FriendlyByteBuf, T> type,
-        Consumer<T> receiver
+        ClientHandler<T> receiver
     );
 
     @FunctionalInterface
     interface ServerToClient<T extends CustomPacketPayload> {
         void sendTo(ServerPlayer player, T message);
+    }
+
+    @FunctionalInterface
+    interface ClientHandler<T extends CustomPacketPayload> {
+        void receive(T message, Player player);
     }
 
 }
