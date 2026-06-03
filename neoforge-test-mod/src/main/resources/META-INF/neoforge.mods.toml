@@ -24,8 +24,9 @@ versionRange = "[1.21.1,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[mixins]]
-config = "${mod_id}.mixins.json"
-
-[[accessTransformers]]
-file = "META-INF/accesstransformer.cfg"
+[[dependencies.${ mod_id }]]
+modId = "atmosphere"
+type = "required"
+versionRange = "*"
+ordering = "NONE"
+side = "BOTH"

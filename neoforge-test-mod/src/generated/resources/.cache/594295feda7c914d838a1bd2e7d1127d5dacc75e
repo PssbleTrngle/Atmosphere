@@ -1,0 +1,6 @@
+// 1.21.1	2026-06-03T23:13:08.379353	Registrate Provider for atmosphere [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+405744cbb8b628bf0fdc98e0df7e55a5ebfbb456 assets/atmosphere/blockstates/weather_block.json
+8120249073863521d3fe0babe8b93ca642dc70dc assets/atmosphere/lang/en_ud.json
+7b3375e1ee45db84b123158032c9bc5e51fd5278 assets/atmosphere/lang/en_us.json
+28b524486815ab546bbfa19ca3eb5e89cfc4ad83 assets/atmosphere/models/block/weather_block.json
+048b9a59eed8ae334e2ad8cb84c817d34ef9b14f assets/atmosphere/models/item/weather_block.json

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "atmosphere:block/weather_block"
+    }
+  }
+}

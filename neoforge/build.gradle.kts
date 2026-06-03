@@ -13,6 +13,12 @@ neoforge {
     }
 }
 
+neoForge.runs {
+    removeIf { it.type.get() != "data" }
+}
+
 dependencies {
     modInclude(libs.ponder)
+
+    modCompileOnly(libs.sable)
 }

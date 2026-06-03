@@ -25,6 +25,22 @@ subprojects {
                 includeGroupAndSubgroups("dev.simulated_team")
             }
         }
+
+        maven {
+            url = uri("https://maven.blamejared.com/")
+            content {
+                includeGroup("foundry.veil")
+                includeGroup("gg.moonflower")
+                includeGroup("io.github.ocelot")
+            }
+        }
+
+        maven {
+            url = uri("https://mvn.devos.one/snapshots")
+            content {
+                includeGroup("com.tterrag.registrate")
+            }
+        }
     }
 
     upload {
