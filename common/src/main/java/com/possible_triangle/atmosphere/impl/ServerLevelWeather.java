@@ -2,6 +2,11 @@ package com.possible_triangle.atmosphere.impl;
 
 import com.possible_triangle.atmosphere.api.v1.*;
 import com.possible_triangle.atmosphere.api.v1.area.Area;
+import com.possible_triangle.atmosphere.api.v1.events.AtmosphereEvents;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Stream;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -12,10 +17,15 @@ import net.minecraft.world.level.Level;
 public class ServerLevelWeather implements LevelWeather {
 
     private WeatherProvider global = new VanillaWeatherProvider();
+    private final Set<LevelWeatherProxy> proxies = new HashSet<>();
     private final LocalWeather local;
 
     public ServerLevelWeather(ServerLevel level) {
         this.local = new LocalWeather(level);
+        proxies.add(local);
+        AtmosphereEvents.REGISTER_WEATHER_PROXY.dispatch(factory ->
+            proxies.add(factory.apply(level))
+        );
     }
 
     public void serverTick() {
@@ -24,7 +34,11 @@ public class ServerLevelWeather implements LevelWeather {
 
     @Override
     public Holder<WeatherCondition> atPosition(Level level, BlockPos pos) {
-        return local.atPosition(level, pos)
+        return proxies.stream()
+            .map(it -> it.atPosition(level, pos))
+            .filter(Optional::isPresent)
+            .findFirst()
+            .flatMap(Function.identity())
             .orElseGet(() -> global.atPosition(level, pos));
     }
 

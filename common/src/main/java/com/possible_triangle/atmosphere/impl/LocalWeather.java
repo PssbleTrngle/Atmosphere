@@ -1,5 +1,6 @@
 package com.possible_triangle.atmosphere.impl;
 
+import com.possible_triangle.atmosphere.api.v1.LevelWeatherProxy;
 import com.possible_triangle.atmosphere.api.v1.LocalWeatherProvider;
 import com.possible_triangle.atmosphere.api.v1.ProviderHeartbeat;
 import com.possible_triangle.atmosphere.api.v1.WeatherCondition;

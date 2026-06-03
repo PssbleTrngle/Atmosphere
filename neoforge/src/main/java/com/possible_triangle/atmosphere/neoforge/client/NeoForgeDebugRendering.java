@@ -9,6 +9,7 @@ import net.createmod.catnip.outliner.Outliner;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.neoforged.fml.loading.FMLEnvironment;
 
 public class NeoForgeDebugRendering implements DebugRendering {
 
@@ -17,7 +18,8 @@ public class NeoForgeDebugRendering implements DebugRendering {
 
     private static final Outliner OUTLINER = Outliner.getInstance();
 
-    private static boolean renderLocalWeatherProviders = false;
+    // TODO persist to client config file
+    private static boolean renderLocalWeatherProviders = !FMLEnvironment.production;
 
     public void receive(RenderLocalWeatherProviders message, Player player) {
         renderLocalWeatherProviders = message.action().resolve(renderLocalWeatherProviders);

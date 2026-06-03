@@ -14,6 +14,9 @@ public interface AtmosphereEvents {
     EventBus<LocalProviderRemoved> LOCAL_PROVIDER_REMOVED =
         INSTANCE.create(AtmosphereConstants.createId("local_provider_removed"));
 
+    EventBus<RegisterWeatherProxy> REGISTER_WEATHER_PROXY =
+        INSTANCE.create(AtmosphereConstants.createId("register_weather_proxy"));
+
     <T> EventBus<T> create(ResourceLocation id);
 
     static Runnable combine(Runnable... runnables) {

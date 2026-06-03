@@ -5,9 +5,6 @@ plugins {
 }
 
 neoforge {
-    // dependOn(project(":api"))
-    // dependOn(project(":common"))
-
     accessTransformer(project(":common"))
 
     dataGen {
@@ -24,6 +21,7 @@ dependencies {
     api(project(":neoforge"))
 
     modImplementation(libs.sable)
+    modImplementation(libs.create.simulated) { isTransitive = false }
     modApi(libs.registrate)
 }
 

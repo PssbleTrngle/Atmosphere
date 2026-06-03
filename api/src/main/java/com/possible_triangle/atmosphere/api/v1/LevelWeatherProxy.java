@@ -1,6 +1,5 @@
-package com.possible_triangle.atmosphere.impl;
+package com.possible_triangle.atmosphere.api.v1;
 
-import com.possible_triangle.atmosphere.api.v1.WeatherCondition;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;

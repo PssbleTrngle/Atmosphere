@@ -24,7 +24,12 @@ public class LocalWeatherBlockEntity extends BlockEntity {
             var pos = getBlockPos();
             var id = ProvidersIds.positioned(pos, AtmosphereBlocks.WEATHER_BLOCK.getId());
             var area = Box.from(new AABB(pos).inflate(5));
-            weather.addLocal(id, new ConstantWeatherProvider(WeatherCondition.RAIN), area);
+            weather.addLocal(
+                id,
+                new ConstantWeatherProvider(WeatherCondition.RAIN),
+                area,
+                ProviderHeartbeat.hasBlockEntity(LocalWeatherBlockEntity.class, pos)
+            );
         }
     }
 

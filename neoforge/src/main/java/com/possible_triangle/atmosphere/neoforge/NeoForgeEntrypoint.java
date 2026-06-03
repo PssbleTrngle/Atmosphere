@@ -8,10 +8,12 @@ import com.possible_triangle.atmosphere.command.AtmosphereCommand;
 import com.possible_triangle.atmosphere.impl.ServerLevelWeather;
 import com.possible_triangle.atmosphere.impl.WeatherApiImpl;
 import com.possible_triangle.atmosphere.neoforge.client.NeoForgeDebugRendering;
+import com.possible_triangle.atmosphere.neoforge.compat.SableWeatherProxy;
 import com.possible_triangle.atmosphere.network.AtmosphereNetwork;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
@@ -57,6 +59,10 @@ public class NeoForgeEntrypoint {
                 var level = event.getLevel();
                 if (level.isClientSide()) rendering.tick(level);
             });
+        }
+
+        if (ModList.get().isLoaded("sable")) {
+            SableWeatherProxy.register();
         }
     }
 
