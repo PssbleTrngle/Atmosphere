@@ -9,12 +9,11 @@ import com.possible_triangle.atmosphere.api.v1.area.Area;
 import com.possible_triangle.atmosphere.api.v1.events.AtmosphereEvents;
 import com.possible_triangle.atmosphere.api.v1.events.LocalProviderAdded;
 import com.possible_triangle.atmosphere.api.v1.events.LocalProviderRemoved;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Stream;
-
 import net.minecraft.core.Holder;
 import net.minecraft.core.Position;
 import net.minecraft.resources.ResourceLocation;
@@ -35,9 +34,11 @@ public class LocalWeather implements LevelWeatherProxy {
     public Optional<Holder<WeatherCondition>> atPosition(Level level, Position pos) {
         return providers.values().stream()
             .filter(it -> it.area().contains(pos))
-            .findFirst()
             .map(LocalWeatherProvider::provider)
-            .map(it -> it.atPosition(level, pos));
+            .map(it -> it.atPosition(level, pos))
+            .filter(Optional::isPresent)
+            .findFirst()
+            .flatMap(Function.identity());
     }
 
     public void serverTick() {

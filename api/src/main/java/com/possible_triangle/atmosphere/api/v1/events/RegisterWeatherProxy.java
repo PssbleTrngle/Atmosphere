@@ -1,8 +1,8 @@
 package com.possible_triangle.atmosphere.api.v1.events;
 
 import com.possible_triangle.atmosphere.api.v1.LevelWeatherProxy;
+import com.possible_triangle.atmosphere.api.v1.WeatherProvider;
 import java.util.function.Function;
-import net.minecraft.server.level.ServerLevel;
 
 @FunctionalInterface
 public interface RegisterWeatherProxy {
@@ -11,6 +11,6 @@ public interface RegisterWeatherProxy {
         add($ -> proxy);
     }
 
-    void add(Function<ServerLevel, LevelWeatherProxy> proxy);
+    void add(Function<WeatherProvider, LevelWeatherProxy> proxy);
 
 }

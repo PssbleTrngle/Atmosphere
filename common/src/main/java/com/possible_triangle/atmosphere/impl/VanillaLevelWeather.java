@@ -1,9 +1,6 @@
 package com.possible_triangle.atmosphere.impl;
 
-import com.possible_triangle.atmosphere.api.v1.LevelWeather;
-import com.possible_triangle.atmosphere.api.v1.LocalWeatherProvider;
-import com.possible_triangle.atmosphere.api.v1.ProviderHeartbeat;
-import com.possible_triangle.atmosphere.api.v1.WeatherProvider;
+import com.possible_triangle.atmosphere.api.v1.*;
 import com.possible_triangle.atmosphere.api.v1.area.Area;
 import java.util.stream.Stream;
 import net.minecraft.resources.ResourceLocation;
@@ -13,7 +10,7 @@ public class VanillaLevelWeather extends VanillaWeatherProvider implements Level
     public static final VanillaLevelWeather INSTANCE = new VanillaLevelWeather();
 
     @Override
-    public void registerGlobal(WeatherProvider provider) {
+    public void registerGlobal(WeatherProviderWithDefault provider) {
     }
 
     @Override

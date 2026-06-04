@@ -17,7 +17,7 @@ public abstract class LevelMixin {
         var self = (Level) (Object) this;
 
         var weather = WeatherAPI.INSTANCE.getWeather(self);
-        var condition = weather.atPosition(self, Vec3.atCenterOf(pos));
+        var condition = weather.atPositionOrDefault(self, Vec3.atCenterOf(pos));
         callback.setReturnValue(condition.value().precipitation());
     }
 

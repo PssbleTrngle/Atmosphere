@@ -44,7 +44,10 @@ subprojects {
     }
 
     upload {
-        maven.nexus()
+        maven {
+            nexus()
+            name = "${mod.id.get()}-${mod.minecraftVersion.get()}-${project.name}"
+        }
     }
 }
 

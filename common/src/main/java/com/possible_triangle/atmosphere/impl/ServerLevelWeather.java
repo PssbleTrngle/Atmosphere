@@ -8,7 +8,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
-
 import net.minecraft.core.Holder;
 import net.minecraft.core.Position;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +16,7 @@ import net.minecraft.world.level.Level;
 
 public class ServerLevelWeather implements LevelWeather {
 
-    private WeatherProvider global = new VanillaWeatherProvider();
+    private WeatherProviderWithDefault global = new VanillaWeatherProvider();
     private final Set<LevelWeatherProxy> proxies = new HashSet<>();
     private final LocalWeather local;
 
@@ -25,7 +24,7 @@ public class ServerLevelWeather implements LevelWeather {
         this.local = new LocalWeather(level);
         proxies.add(local);
         AtmosphereEvents.REGISTER_WEATHER_PROXY.dispatch(factory ->
-            proxies.add(factory.apply(level))
+            proxies.add(factory.apply(local))
         );
     }
 
@@ -34,17 +33,17 @@ public class ServerLevelWeather implements LevelWeather {
     }
 
     @Override
-    public Holder<WeatherCondition> atPosition(Level level, Position pos) {
+    public Optional<Holder<WeatherCondition>> atPosition(Level level, Position pos) {
         return proxies.stream()
             .map(it -> it.atPosition(level, pos))
             .filter(Optional::isPresent)
             .findFirst()
             .flatMap(Function.identity())
-            .orElseGet(() -> global.atPosition(level, pos));
+            .or(() -> global.atPosition(level, pos));
     }
 
     @Override
-    public void registerGlobal(WeatherProvider provider) {
+    public void registerGlobal(WeatherProviderWithDefault provider) {
         global = provider;
     }
 
@@ -61,6 +60,11 @@ public class ServerLevelWeather implements LevelWeather {
     @Override
     public Stream<LocalWeatherProvider> listLocal() {
         return local.list();
+    }
+
+    @Override
+    public Holder<WeatherCondition> defaultCondition(Level level) {
+        return global.defaultCondition(level);
     }
 
 }

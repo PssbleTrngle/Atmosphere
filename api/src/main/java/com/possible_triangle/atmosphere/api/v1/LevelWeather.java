@@ -5,9 +5,9 @@ import java.util.stream.Stream;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
-public interface LevelWeather extends WeatherProvider {
+public interface LevelWeather extends WeatherProviderWithDefault {
 
-    void registerGlobal(WeatherProvider provider);
+    void registerGlobal(WeatherProviderWithDefault provider);
 
     default boolean addLocal(ResourceLocation id, WeatherProvider provider, Area area) {
         return addLocal(id, provider, area, null);
