@@ -61,7 +61,9 @@ public class NeoForgeEntrypoint {
             });
         }
 
-        if (ModList.get().isLoaded("sable")) {
+        var mods = ModList.get();
+
+        if (mods.isLoaded("sable")) {
             SableWeatherProxy.register();
         }
     }

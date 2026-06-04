@@ -9,16 +9,17 @@ import com.possible_triangle.atmosphere.api.v1.area.Area;
 import com.possible_triangle.atmosphere.api.v1.events.AtmosphereEvents;
 import com.possible_triangle.atmosphere.api.v1.events.LocalProviderAdded;
 import com.possible_triangle.atmosphere.api.v1.events.LocalProviderRemoved;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
-import net.minecraft.core.BlockPos;
+
 import net.minecraft.core.Holder;
+import net.minecraft.core.Position;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 
 public class LocalWeather implements LevelWeatherProxy {
 
@@ -31,9 +32,9 @@ public class LocalWeather implements LevelWeatherProxy {
     private final HashMap<ResourceLocation, LocalWeatherProvider> providers = new HashMap<>();
 
     @Override
-    public Optional<Holder<WeatherCondition>> atPosition(Level level, BlockPos pos) {
+    public Optional<Holder<WeatherCondition>> atPosition(Level level, Position pos) {
         return providers.values().stream()
-            .filter(it -> it.area().contains(Vec3.atCenterOf(pos)))
+            .filter(it -> it.area().contains(pos))
             .findFirst()
             .map(LocalWeatherProvider::provider)
             .map(it -> it.atPosition(level, pos));

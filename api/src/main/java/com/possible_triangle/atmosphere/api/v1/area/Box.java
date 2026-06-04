@@ -1,7 +1,7 @@
 package com.possible_triangle.atmosphere.api.v1.area;
 
+import net.minecraft.core.Position;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 
 public class Box implements Area {
 
@@ -16,8 +16,8 @@ public class Box implements Area {
     }
 
     @Override
-    public boolean contains(Vec3 pos) {
-        return aabb.contains(pos);
+    public boolean contains(Position pos) {
+        return aabb.contains(pos.x(), pos.y(), pos.z());
     }
 
     public AABB aabb() {

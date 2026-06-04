@@ -8,8 +8,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import net.minecraft.core.BlockPos;
+
 import net.minecraft.core.Holder;
+import net.minecraft.core.Position;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
@@ -33,7 +34,7 @@ public class ServerLevelWeather implements LevelWeather {
     }
 
     @Override
-    public Holder<WeatherCondition> atPosition(Level level, BlockPos pos) {
+    public Holder<WeatherCondition> atPosition(Level level, Position pos) {
         return proxies.stream()
             .map(it -> it.atPosition(level, pos))
             .filter(Optional::isPresent)

@@ -1,6 +1,6 @@
 package com.possible_triangle.atmosphere.api.v1;
 
-import net.minecraft.core.BlockPos;
+import net.minecraft.core.Position;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 
@@ -13,7 +13,7 @@ public class ConstantWeatherProvider extends AbstractWeatherProvider {
     }
 
     @Override
-    protected ResourceKey<WeatherCondition> conditionKeyAt(Level level, BlockPos pos) {
+    protected ResourceKey<WeatherCondition> conditionKeyAt(Level level, Position pos) {
         return this.weatherCondition;
     }
 
