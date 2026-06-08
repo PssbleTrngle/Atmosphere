@@ -1,20 +1,14 @@
 # <meta>
 #    <source>@pssbletrngle/github-meta-generator</source>
-#    <version>1.0.82</version>
-#    <timestamp>2026-05-31T12:04:08.400Z</timestamp>
-#    <hash>bbe387df50836675</hash>
+#    <version>1.0.83</version>
+#    <timestamp>2026-06-08T09:30:55.636Z</timestamp>
+#    <hash>57f035da10956131</hash>
 # </meta>
 
 name: Test
 
 on:
   workflow_dispatch:
-    inputs:
-      upload:
-        description: "Upload Artifact"
-        default: false
-        required: true
-        type: boolean
 
   pull_request:
     types: [opened, synchronize]
@@ -55,9 +49,3 @@ jobs:
 
       - name: Test
         run: ./gradlew build check --stacktrace
-
-      - uses: actions/upload-artifact@v4
-        if: ${{ inputs.upload }}
-        with:
-          name: build
-          path: "**/build/libs/*.jar"

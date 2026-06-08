@@ -1,9 +1,9 @@
 <!---
 <meta>
    <source>@pssbletrngle/github-meta-generator</source>
-   <version>1.0.82</version>
-   <timestamp>2026-05-31T12:04:08.400Z</timestamp>
-   <hash>787f509ab79b43c2</hash>
+   <version>1.0.83</version>
+   <timestamp>2026-06-08T09:30:55.636Z</timestamp>
+   <hash>7249d6ee9693d490</hash>
 </meta>
 -->
 
@@ -16,6 +16,9 @@ All Rights Reserved
 Copyright (c) 2026 PssbleTrngle
 
 This license applies to any files under the following directories:
+
+- ./common/src/main/resources/assets/
+- ./neoforge-test-mod/src/main/resources/assets/
 
 ---
 
