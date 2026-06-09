@@ -31,8 +31,9 @@ public class NeoForgeDebugRendering implements DebugRendering {
         if (!renderLocalWeatherProviders) return;
 
         var weather = WeatherAPI.INSTANCE.getWeather(level);
+        var providers = weather.listLocal();
 
-        weather.listLocal().forEach(provider -> {
+        providers.forEach(provider -> {
             if (provider.area() instanceof Box box) {
                 OUTLINER.chaseAABB(provider, box.aabb())
                     .colored(0x5990e3);

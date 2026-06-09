@@ -9,6 +9,7 @@ import com.possible_triangle.atmosphere.api.v1.area.Area;
 import com.possible_triangle.atmosphere.api.v1.events.AtmosphereEvents;
 import com.possible_triangle.atmosphere.api.v1.events.LocalProviderAdded;
 import com.possible_triangle.atmosphere.api.v1.events.LocalProviderRemoved;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -28,7 +29,7 @@ public class LocalWeather implements LevelWeatherProxy {
         this.level = level;
     }
 
-    private final HashMap<ResourceLocation, LocalWeatherProvider> providers = new HashMap<>();
+    private final Map<ResourceLocation, LocalWeatherProvider> providers = Collections.synchronizedMap(new HashMap<>());
 
     @Override
     public Optional<Holder<WeatherCondition>> atPosition(Level level, Position pos) {
