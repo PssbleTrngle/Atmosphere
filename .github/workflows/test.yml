@@ -1,8 +1,8 @@
 # <meta>
 #    <source>@pssbletrngle/github-meta-generator</source>
-#    <version>1.0.93</version>
-#    <timestamp>2026-06-17T16:44:30.169Z</timestamp>
-#    <hash>2a2a64e30fe8cb30</hash>
+#    <version>1.0.94</version>
+#    <timestamp>2026-06-17T17:35:00.455Z</timestamp>
+#    <hash>fb95f340566acc27</hash>
 # </meta>
 
 name: Test
@@ -42,7 +42,7 @@ jobs:
           java-version: 26
           distribution: temurin
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
         with:
           cache-read-only: ${{ github.event_name != 'push' }}
           dependency-graph: generate-and-submit
