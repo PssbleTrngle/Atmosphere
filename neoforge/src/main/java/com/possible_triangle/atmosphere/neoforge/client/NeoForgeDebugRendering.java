@@ -6,7 +6,9 @@ import com.possible_triangle.atmosphere.api.v1.area.Box;
 import com.possible_triangle.atmosphere.client.DebugRendering;
 import com.possible_triangle.atmosphere.network.message.RenderLocalWeatherProviders;
 import net.createmod.catnip.outliner.Outliner;
+import net.createmod.catnip.render.BindableTexture;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.neoforged.fml.loading.FMLEnvironment;
@@ -17,6 +19,8 @@ public class NeoForgeDebugRendering implements DebugRendering {
     public static final String MESSAGE_DISABLED = AtmosphereConstants.MOD_ID + ".debug.render.disabled";
 
     private static final Outliner OUTLINER = Outliner.getInstance();
+    private static final ResourceLocation FACE_TEXTURE = AtmosphereConstants.createId("textures/special/local.png");
+    private static final BindableTexture FACE_TEXTURE_SUPPLIER = () -> FACE_TEXTURE;
 
     // TODO persist to client config file
     private static boolean renderLocalWeatherProviders = !FMLEnvironment.production;
@@ -36,6 +40,7 @@ public class NeoForgeDebugRendering implements DebugRendering {
         providers.forEach(provider -> {
             if (provider.area() instanceof Box box) {
                 OUTLINER.chaseAABB(provider, box.aabb())
+                    .withFaceTextures(FACE_TEXTURE_SUPPLIER, FACE_TEXTURE_SUPPLIER)
                     .colored(0x5990e3);
             }
         });

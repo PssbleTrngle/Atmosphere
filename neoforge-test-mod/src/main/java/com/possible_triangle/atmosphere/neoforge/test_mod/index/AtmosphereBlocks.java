@@ -14,6 +14,7 @@ public class AtmosphereBlocks {
 
     public static final BlockEntry<LocalWeatherBlock> WEATHER_BLOCK = REGISTRATE.object("weather_block")
         .block(LocalWeatherBlock::new)
+        .lang("Weather Crystal")
         .properties(BlockBehaviour.Properties::noLootTable)
         .simpleBlockEntity(LocalWeatherBlockEntity::new)
         .simpleItem()
