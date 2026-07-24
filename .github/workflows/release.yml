@@ -1,8 +1,8 @@
 # <meta>
 #    <source>@pssbletrngle/github-meta-generator</source>
-#    <version>1.0.95</version>
-#    <timestamp>2026-06-21T19:14:57.501Z</timestamp>
-#    <hash>2edc9175944352e1</hash>
+#    <version>1.0.107</version>
+#    <timestamp>2026-07-24T11:27:31.939Z</timestamp>
+#    <hash>6f3e0515ba87ca7f</hash>
 # </meta>
 
 name: Release
@@ -11,6 +11,11 @@ on:
     branches:
       - "main"
       - "main/**"
+    paths:
+      - "**.java"
+      - "**.kt"
+      - "gradle.properties"
+      - "gradle/**"
 
 env:
   CI: true
@@ -27,7 +32,7 @@ jobs:
       contents: read
       packages: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: true
 
