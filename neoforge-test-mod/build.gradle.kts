@@ -25,6 +25,6 @@ dependencies {
     modApi(libs.registrate)
 }
 
-tasks.publish {
-    onlyIf { false }
+tasks.withType<PublishToMavenRepository> {
+    enabled = false
 }

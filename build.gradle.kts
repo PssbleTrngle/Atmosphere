@@ -43,12 +43,7 @@ subprojects {
         }
     }
 
-    upload {
-        maven {
-            nexus()
-            name = "${mod.id.get()}-${mod.minecraftVersion.get()}-${project.name}"
-        }
-    }
+    upload.maven.nexus()
 }
 
 enableSpotless()
