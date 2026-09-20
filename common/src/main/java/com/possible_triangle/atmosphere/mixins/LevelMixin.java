@@ -3,6 +3,7 @@ package com.possible_triangle.atmosphere.mixins;
 import com.possible_triangle.atmosphere.api.v1.WeatherAPI;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,7 +19,7 @@ public abstract class LevelMixin {
 
         var weather = WeatherAPI.INSTANCE.getWeather(self);
         var condition = weather.atPositionOrDefault(self, Vec3.atCenterOf(pos));
-        callback.setReturnValue(condition.value().precipitation());
+        callback.setReturnValue(condition.value().precipitation() == Biome.Precipitation.RAIN);
     }
 
 }
